@@ -1,18 +1,14 @@
-const handleSubmit = (event) => {
+document.forms.fileForm.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  const myForm = event.target;
-  const formData = new FormData(myForm);
-  
+  const result = document.querySelector(".result");
   fetch("/", {
+    body: new FormData(event.target),
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(formData).toString(),
   })
-    .then(() => console.log("Form successfully submitted"))
-    .catch((error) => alert(error));
-};
-
-document
-  .querySelector("form")
-  .addEventListener("submit", handleSubmit);
+    .then(() => {
+      result.innerText = "Success";
+    })
+    .catch((error) => {
+      result.innerText = `Failed: ${error}`;
+    });
+});
